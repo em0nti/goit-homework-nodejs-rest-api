@@ -71,7 +71,7 @@ router.delete("/:contactId", async (req, res, next) => {
       if (!result) {
         throw HttpError(404, "Not found");
       }
-      return res.json({"message": "Delete success"})
+      return res.json({ "message": "Contact deleted" });
   } catch (error) {
     next(error);
   }
@@ -92,7 +92,7 @@ router.put("/:contactId", async (req, res, next) => {
       throw HttpError(404, "Not found");
     }
 
-    return res.status(201).json(result);
+    return res.status(200).json(result);
 
   } catch (error) {
     next(error);
