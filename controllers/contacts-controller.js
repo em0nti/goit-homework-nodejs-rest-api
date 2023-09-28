@@ -45,7 +45,6 @@ const updateById = async (req, res) => {
   const { contactId } = req.params;
   const result = await ContactModel.findByIdAndUpdate(contactId, req.body, {
     new: true,
-    runValidators: true,
   });
   if (!result) {
     throw HttpError(404);
