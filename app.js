@@ -7,7 +7,7 @@ const { connectDb } = require('./config');
 const { HttpError } = require('./helpers');
 
 connectDb();
-const { contactsRouter } = require('./routes');
+const { contactsRouter, authRouter } = require('./routes');
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use('/users', authRoutes);
+app.use('/users', authRouter);
 app.use('/api/contacts', contactsRouter);
 
 app.use((_, res) => {

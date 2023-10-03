@@ -6,10 +6,10 @@ const { validateBody } = require('../../decorators');
 
 const router = express.Router();
 
-const userValidateMiddleware = validateBody(contactSchema);
+const contactValidateMiddleware = validateBody(contactSchema);
 const favoriteValidateMiddleware = validateBody(updateFavoriteSchema);
 
-// Routes
+// Routes:
 // Get All
 // Get One
 // Add
@@ -20,14 +20,14 @@ router.get('/', contactsControllers.getAll);
 
 router.get('/:contactId', isValidId, contactsControllers.getById);
 
-router.post('/', userValidateMiddleware, contactsControllers.add);
+router.post('/', contactValidateMiddleware, contactsControllers.add);
 
 router.delete('/:contactId', isValidId, contactsControllers.deleteById);
 
 router.put(
   '/:contactId',
   isValidId,
-  userValidateMiddleware,
+  contactValidateMiddleware,
   contactsControllers.updateById
 );
 
