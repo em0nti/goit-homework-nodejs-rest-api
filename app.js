@@ -7,7 +7,7 @@ const { connectDb } = require('./config');
 const { HttpError } = require('./helpers');
 
 connectDb();
-const { contactsRouter, authRouter } = require('./routes');
+const { apiRouter } = require('./routes');
 
 const app = express();
 
@@ -17,8 +17,8 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-app.use('/users', authRouter);
-app.use('/api/contacts', contactsRouter);
+app.use('/users', apiRouter.authRouter);
+app.use('/api/contacts', apiRouter.contactsRouter);
 
 app.use((_, res) => {
   throw HttpError(404);
