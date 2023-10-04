@@ -8,8 +8,9 @@ const { ctrlWrapper } = require('../../decorators');
 // Update  - updateById
 // Delete  - deleteById
 
-const getAll = async (_, res) => {
-  const result = await ContactModel.find({});
+const getAll = async (req, res) => {
+  const { _id: owner } = req.user;
+  const result = await ContactModel.find({ owner }, '-createdAt -updatedAt');
   if (!result) {
     throw HttpError(400, 'Unable to fetch data');
   }
