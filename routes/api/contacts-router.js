@@ -1,6 +1,6 @@
 const express = require('express');
-const contactsControllers = require('../../controllers');
-const { isValidId } = require('../../middlewares');
+const { contactsControllers } = require('../../controllers');
+const { isValidId, authenticate } = require('../../middlewares');
 const { contactSchema, updateFavoriteSchema } = require('../../schemas');
 const { validateBody } = require('../../decorators');
 
@@ -15,6 +15,8 @@ const favoriteValidateMiddleware = validateBody(updateFavoriteSchema);
 // Add
 // Update One
 // Remove
+
+router.use(authenticate);
 
 router.get('/', contactsControllers.getAll);
 
