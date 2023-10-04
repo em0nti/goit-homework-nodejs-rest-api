@@ -5,7 +5,11 @@ const {
   updateById,
   deleteById,
 } = require('./contacts-controller');
-const { userRegistration, userLogin } = require('./auth-controller');
+const {
+  userRegistration,
+  userLogin,
+  userLogout,
+} = require('./auth-controller');
 
 module.exports = {
   getAll,
@@ -15,4 +19,5 @@ module.exports = {
   deleteById,
   userRegistration,
   userLogin,
+  userLogout,
 };

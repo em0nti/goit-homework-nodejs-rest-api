@@ -77,7 +77,17 @@ const login = async (req, res) => {
     .json({ code: 200, user: { email: user.email, token: user.token } });
 };
 
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await UserModel.findByIdAndUpdate(_id, { token: null });
+
+  res.status(204).json({
+    message: 'Signout success',
+  });
+};
+
 module.exports = {
   userRegistration: ctrlWrapper(registration),
   userLogin: ctrlWrapper(login),
+  userLogout: ctrlWrapper(logout),
 };
