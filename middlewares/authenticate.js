@@ -11,30 +11,28 @@ const { UserModel } = require('../models');
 // If Exist -> Save user to req object
 // Error handling: Status: 401 Unauthorized, ResponseBody: {  "message": "Not authorized"}
 
-const AUTHORIZATION_HEADER_TYPE = 'Bearer';
-
 const authenticate = async (req, res, next) => {
-  const { authorization = '' } = req.headers;
-  const [type, token] = authorization.split(' ');
+	const { authorization = '' } = req.headers;
+	const [type, token] = authorization.split(' ');
 
-  if (type !== AUTHORIZATION_HEADER_TYPE || !token) {
-    throw HttpError(401, 'No token or header');
-  }
+	if (type !== 'Bearer' || !token) {
+		throw HttpError(401);
+	}
 
-  try {
-    const { id } = jwt.verify(token, JWT_SECRET);
-    const user = await UserModel.findById(id);
+	try {
+		const { id } = jwt.verify(token, JWT_SECRET);
+		const user = await UserModel.findById(id);
 
-    if (!user) {
-      throw HttpError(401, 'User not found');
-    }
+		if (!user) {
+			throw HttpError(401, 'User not found');
+		}
 
-    req.user = user;
+		req.user = user;
 
-    next();
-  } catch {
-    throw HttpError(401);
-  }
+		next();
+	} catch {
+		throw HttpError(401);
+	}
 };
 
 module.exports = ctrlWrapper(authenticate);
