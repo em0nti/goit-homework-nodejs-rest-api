@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-// Joi shema for validate req user data
+// Joi schema for validate req contact data
 const contactSchema = Joi.object({
   name: Joi.string().min(3).max(50).required().messages({
     'string.min': '"name" must be at least 3 characters long',

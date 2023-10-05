@@ -1,4 +1,6 @@
 const { model, Schema } = require('mongoose');
+const { handleSchemaError, runValidateAtUpdate } = require('./hooks');
+
 const contactSchema = new Schema(
   {
     name: {
@@ -16,9 +18,17 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+    },
   },
   { timestamps: true, versionKey: false }
 );
+
+contactSchema.post('save', handleSchemaError);
+contactSchema.pre('findOneAndUpdate', runValidateAtUpdate);
+contactSchema.post('findOneAndUpdate', handleSchemaError);
 
 module.exports = model('contact', contactSchema);
 
