@@ -16,8 +16,10 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 
-app.use('/users', apiRouter.authRouter);
+app.use('/api/auth', apiRouter.authRouter);
+app.use('/api/users', apiRouter.userRouter);
 app.use('/api/contacts', apiRouter.contactsRouter);
 
 app.use((_, res) => {

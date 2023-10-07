@@ -15,6 +15,4 @@ router.post('/login', userLoginValidate, authControllers.login);
 
 router.patch('/logout', authenticate, authControllers.logout);
 
-router.get('/current', authenticate, authControllers.current);
-
 module.exports = router;
