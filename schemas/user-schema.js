@@ -34,7 +34,15 @@ const userLoginSchema = Joi.object({
     }),
 });
 
+const userVerifySchema = Joi.object({
+	email: Joi.string().email().required().messages({
+		'any.required': 'Email is required',
+		'string.email': 'Email must be a valid email address',
+	}),
+});
+
 module.exports = {
-  userRegistrationSchema,
-  userLoginSchema,
+	userRegistrationSchema,
+	userLoginSchema,
+	userVerifySchema,
 };

@@ -1,9 +1,10 @@
 const bcrypt = require('bcryptjs');
 
-const { HttpError } = require('../../helpers');
+const { HttpError, sendMail } = require('../../helpers');
 const { UserModel } = require('../../models');
 const { ctrlWrapper } = require('../../decorators');
 const gravatar = require('gravatar');
+const { nanoid } = require('nanoid');
 
 const registration = async (req, res) => {
 	// Extract Data: Extract user data from the request body.
@@ -26,15 +27,27 @@ const registration = async (req, res) => {
 	// Creating avatar
 	const avatarUrl = gravatar.url(email);
 
+	// Creating verificationToken for the verify email
+	const verificationToken = nanoid();
+
 	// Save User: Save the new user data into the MongoDB database.
 	const newUser = await UserModel.create({
 		...req.body,
 		password: hashedPassword,
 		avatarUrl,
+		verify: false,
+		verificationToken,
 	});
 	if (!newUser) {
 		throw HttpError(400, 'Unable to safe in DB');
 	}
+
+	// Send verification email
+	await sendMail({
+		to: email,
+		subject: 'Contact app: you need to verify your email',
+		html: `<a target="_blank" href="${process.env.BASE_URL}:${process.env.PORT}/api/auth/verify/${verificationToken}">Click to verify email</a>`,
+	});
 
 	// Response: Send a success message back to the client(frontend).
 	res.status(201).json({
